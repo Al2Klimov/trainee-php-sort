@@ -37,4 +37,10 @@ function bubbleSort($sort_array)
     return $sort_array;
 }
 
-echo implode("", bubbleSort(checkForNextLine(file('php://stdin'))));
+if($argc > 1 && substr($argv[1], 0, 1) !== '-') {
+    $fileName = $argv[1];
+} else {
+    $fileName = 'php://stdin';
+}
+
+echo implode("", bubbleSort(checkForNextLine(file($fileName))));
