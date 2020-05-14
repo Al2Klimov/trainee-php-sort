@@ -48,7 +48,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:", [], $optind);
+$options = getopt("no:u", [], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -61,8 +61,12 @@ if(isset($argv[$optind])) {
     $fileName = 'php://stdin';
 }
 
-$bubbleSort = bubbleSort(checkForNextLine(file($fileName)), $funcCallback);
+$makeUnique = checkForNextLine(file($fileName));
+if (key_exists("u", $options)) {
+    $makeUnique = array_values(array_unique($makeUnique));
+}
 
+$bubbleSort = bubbleSort($makeUnique, $funcCallback);
 if (key_exists("o", $options)) {
     file_put_contents($options['o'], $bubbleSort);
 } else {
