@@ -48,7 +48,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:ubfR", [], $optind);
+$options = getopt("no:ubfRr", [], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -78,6 +78,10 @@ if (key_exists("R", $options)) {
     $bubbleSort = $makeUnique;
 } else {
     $bubbleSort = bubbleSort($makeUnique, $funcCallback);
+}
+
+if (key_exists("r", $options)) {
+    $bubbleSort = array_reverse($bubbleSort);
 }
 
 if (key_exists("o", $options)) {
