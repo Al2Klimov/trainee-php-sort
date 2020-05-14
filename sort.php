@@ -23,6 +23,31 @@ function checkForEquality($firstNum, $secondNum)
     return $firstNum < $secondNum;
 }
 
+function quickSort($arr, $funcCallback)
+{
+    $arrSize = sizeof($arr);
+
+    if ($arrSize < 2) {
+        return $arr;
+    }
+
+    $leftArray = $rightArray = array();
+    $middle = $arr[0];
+
+    for ($i = 1; $i < $arrSize; $i++) {
+        if ($funcCallback($arr[$i], $middle)) {
+            $leftArray[] = $arr[$i];
+        } else {
+            $rightArray[] = $arr[$i];
+        }
+    }
+
+    $leftArray = quickSort($leftArray, $funcCallback);
+    $rightArray = quickSort($rightArray, $funcCallback);
+
+    return array_merge($leftArray, array($middle), $rightArray);
+}
+
 function bubbleSort($sort_array, $checkEquality)
 {
     $array_indexes = count($sort_array);
@@ -48,7 +73,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:ubfRr", [], $optind);
+$options = getopt("no:ubfRr", ["qsort"], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -76,6 +101,8 @@ if (key_exists("u", $options)) {
 if (key_exists("R", $options)) {
     shuffle($makeUnique);
     $bubbleSort = $makeUnique;
+} elseif (key_exists("qsort", $options)) {
+    $bubbleSort = quickSort($makeUnique, $funcCallback);
 } else {
     $bubbleSort = bubbleSort($makeUnique, $funcCallback);
 }
