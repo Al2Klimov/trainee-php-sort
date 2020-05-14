@@ -48,7 +48,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("n", [], $optind);
+$options = getopt("no:", [], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -61,4 +61,10 @@ if(isset($argv[$optind])) {
     $fileName = 'php://stdin';
 }
 
-echo implode("", bubbleSort(checkForNextLine(file($fileName)), $funcCallback));
+$bubbleSort = bubbleSort(checkForNextLine(file($fileName)), $funcCallback);
+
+if (key_exists("o", $options)) {
+    file_put_contents($options['o'], $bubbleSort);
+} else {
+    echo implode("", $bubbleSort);
+}
