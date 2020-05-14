@@ -48,7 +48,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:ub", [], $optind);
+$options = getopt("no:ubf", [], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -64,6 +64,9 @@ if(isset($argv[$optind])) {
 $makeUnique = checkForNextLine(file($fileName));
 if (key_exists("b", $options)) {
     $makeUnique = array_map("ltrim", $makeUnique);
+}
+if (key_exists("f", $options)) {
+    $makeUnique = array_map("strtoupper", $makeUnique);
 }
 
 if (key_exists("u", $options)) {
