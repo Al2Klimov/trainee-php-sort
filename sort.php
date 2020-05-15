@@ -48,6 +48,29 @@ function quickSort($arr, $funcCallback)
     return array_merge($leftArray, array($middle), $rightArray);
 }
 
+function mergeSort($arr, $funcCallback)
+{
+    if (sizeof($arr) <= 1) {
+        return $arr;
+    }
+
+    $mergedArray = array();
+
+    $middle = round(sizeof($arr) / 2, 0, PHP_ROUND_HALF_DOWN);
+    $leftSide = mergeSort(array_slice($arr, 0, $middle), $funcCallback);
+    $rightSide = mergeSort(array_slice($arr, $middle, sizeof($arr)), $funcCallback);
+
+    while (0 < sizeof($leftSide) && 0 < sizeof($rightSide)) {
+        if ($funcCallback($leftSide[0], $rightSide[0])) {
+            $mergedArray[] = array_shift($leftSide);
+        } else {
+            $mergedArray[] = array_shift($rightSide);
+        }
+    }
+
+    return array_merge($mergedArray, $leftSide, $rightSide);
+}
+
 function bubbleSort($sort_array, $checkEquality)
 {
     $array_indexes = count($sort_array);
@@ -73,7 +96,7 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:ubfRr", ["qsort"], $optind);
+$options = getopt("no:ubfRr", ["qsort", "mergesort"], $optind);
 if (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
@@ -103,6 +126,8 @@ if (key_exists("R", $options)) {
     $bubbleSort = $makeUnique;
 } elseif (key_exists("qsort", $options)) {
     $bubbleSort = quickSort($makeUnique, $funcCallback);
+} elseif (key_exists("mergesort", $options)) {
+    $bubbleSort = mergeSort($makeUnique, $funcCallback);
 } else {
     $bubbleSort = bubbleSort($makeUnique, $funcCallback);
 }
