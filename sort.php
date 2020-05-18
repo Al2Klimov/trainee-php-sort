@@ -1,3 +1,5 @@
+// sort | (c) 2020 NETWAYS GmbH | GPLv2+
+
 <?php
 
 function printHelp()
