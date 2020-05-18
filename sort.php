@@ -1,5 +1,28 @@
 <?php
 
+function printHelp()
+{
+    echo <<<EOT
+Usage: php sort.php [OPTION] < [FILE]
+or: php sort.php [OPTION] file
+Without a given file name will be use the standard console output.
+Sort options:\n
+-b              Ignore leading blanks
+-f              Treat lowercase as uppercase
+-n              Sort by numeric value
+-R              Sort the keys using a random hash
+-r              Reverse the result of sorting
+-o              Write result in FILE instead of standard output
+-u              Only output the first of several matches
+--merge         Use merge sort Algorithm
+--qsort         Use quick sort Algorithm
+--help          Display this help and exit the program.
+
+EOT;
+
+    exit(0);
+}
+
 function checkForNextLine($arr)
 {
     $length = sizeof($arr);
@@ -96,8 +119,10 @@ function bubbleSort($sort_array, $checkEquality)
 }
 
 $optind = null;
-$options = getopt("no:ubfRr", ["qsort", "mergesort"], $optind);
-if (key_exists("n", $options)) {
+$options = getopt("no:ubfRr", ["qsort", "mergesort", "help"], $optind);
+if (key_exists("help", $options)) {
+    printHelp();
+} elseif (key_exists("n", $options)) {
     $funcCallback = 'castToInt';
 } else {
     $funcCallback = 'checkForEquality';
